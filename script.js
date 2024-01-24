@@ -1,24 +1,18 @@
-let dragged;
-
-document.addEventListener('drag', function(event) {
-    // Save a reference to the dragged element
-    dragged = event.target;
-});
-
-document.addEventListener('dragover', function(event) {
-    // Prevent default to allow drop
+function allowDrop(event) {
     event.preventDefault();
-});
+}
 
-document.addEventListener('drop', function(event) {
-    // Prevent default action (open as link for some elements)
+function drag(event) {
+    event.dataTransfer.setData("text", event.target.id);
+}
+
+function drop(event) {
     event.preventDefault();
+    var data = event.dataTransfer.getData("text");
+    var draggedElement = document.getElementById(data);
 
-    // If the dragged element is a div, swap the background images
-    if (event.target.classList.contains('draggable')) {
-        // Swap background images
-        let temp = event.target.style.backgroundImage;
-        event.target.style.backgroundImage = dragged.style.backgroundImage;
-        dragged.style.backgroundImage = temp;
-    }
-});
+    // Swap background images
+    var temp = event.target.style.backgroundImage;
+    event.target.style.backgroundImage = draggedElement.style.backgroundImage;
+    draggedElement.style.backgroundImage = temp;
+}
